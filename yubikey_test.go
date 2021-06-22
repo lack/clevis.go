@@ -26,7 +26,7 @@ func TestDecryptYubikey(t *testing.T) {
 		}
 
 		compactForm := outbuf.Bytes()
-		jsonForm, err := convertToJsonForm(compactForm)
+		jsonForm, err := convertToJSONForm(compactForm)
 		if err != nil {
 			t.Fatal(err)
 		}

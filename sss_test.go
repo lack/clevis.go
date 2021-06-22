@@ -50,7 +50,7 @@ func TestDecryptSss(t *testing.T) {
 	}
 
 	compactForm := encryptedData.Bytes()
-	jsonForm, err := convertToJsonForm(compactForm)
+	jsonForm, err := convertToJSONForm(compactForm)
 	if err != nil {
 		t.Fatal(err)
 	}

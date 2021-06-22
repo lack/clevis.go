@@ -58,7 +58,7 @@ func checkDecryptTang(t *testing.T, h crypto.Hash) {
 	}
 
 	compactForm := encryptedData.Bytes()
-	jsonForm, err := convertToJsonForm(compactForm)
+	jsonForm, err := convertToJSONForm(compactForm)
 	if err != nil {
 		t.Fatal(err)
 	}

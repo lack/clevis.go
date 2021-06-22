@@ -37,7 +37,7 @@ func checkDecryption(t *testing.T, tpmPathEnvvar string) {
 		}
 
 		compactForm := outbuf.Bytes()
-		jsonForm, err := convertToJsonForm(compactForm)
+		jsonForm, err := convertToJSONForm(compactForm)
 		if err != nil {
 			t.Fatal(err)
 		}
@@ -62,8 +62,8 @@ func checkDecryption(t *testing.T, tpmPathEnvvar string) {
 	}
 }
 
-// convertToJsonForm converts jwx message from a compact form to JSON
-func convertToJsonForm(compactData []byte) ([]byte, error) {
+// convertToJSONForm converts jwx message from a compact form to JSON
+func convertToJSONForm(compactData []byte) ([]byte, error) {
 	var outbuf bytes.Buffer
 	// jose jwe fmt -i- -c <<< $data
 	cmd := exec.Command("jose", "jwe", "fmt", "-i-")
