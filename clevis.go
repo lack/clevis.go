@@ -1,7 +1,6 @@
 package clevis
 
 import (
-	"encoding/json"
 	"fmt"
 
 	"github.com/lestrrat-go/jwx/jwe"
@@ -18,30 +17,17 @@ type Pin struct {
 
 // Parse the bytestream into a jwe.Message and clevis.Pin
 func Parse(data []byte) (*jwe.Message, *Pin, error) {
-	// Important note: because 'clevis' is in the protected headers, we
-	// CANNOT use this custom field to convert directly to Pin, since
-	// the field ordering in the resulting structure is not guaranteed to
-	// be preserved, and the jwe library will use the serialized version of
-	// the converted type instead of keeping its own unaltered copy!  Using
-	// a json.RawMessage as an intermediate type allows us to keep the
-	// jwe-owned copy unaltered but still allows easy conversion to our own
-	// better struct.
-	jwe.RegisterCustomField("clevis", json.RawMessage{})
+	jwe.RegisterCustomField("clevis", Pin{})
 
 	msg, err := jwe.Parse(data)
 	if err != nil {
 		return nil, nil, err
 	}
-
 	n, ok := msg.ProtectedHeaders().Get("clevis")
 	if !ok {
 		return msg, nil, fmt.Errorf("clevis.go: provided message does not contain 'clevis' node")
 	}
-	var clevis Pin
-	err = json.Unmarshal(n.(json.RawMessage), &clevis)
-	if err != nil {
-		return msg, nil, err
-	}
+	clevis := n.(Pin)
 	return msg, &clevis, nil
 }
 
