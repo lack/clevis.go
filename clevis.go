@@ -94,7 +94,7 @@ func Decrypt(data []byte) ([]byte, error) {
 	case "tang":
 		return p.Tang.Decrypt(msg)
 	case "sss":
-		return p.Sss.Decrypt(msg)
+		return p.Sss.Decrypt(data)
 	case "tpm2":
 		return p.Tpm2.Decrypt(msg)
 	case "yubikey":

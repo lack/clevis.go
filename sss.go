@@ -62,7 +62,7 @@ func (p SssPin) ToConfig() (SssConfig, error) {
 }
 
 // Decrypt implements Shamir Secret Sharing decryption algorithm
-func (p SssPin) Decrypt(msg *jwe.Message) ([]byte, error) {
+func (p SssPin) Decrypt(data []byte) ([]byte, error) {
 	var prime big.Int
 	primeBytes, err := base64.RawURLEncoding.DecodeString(p.Prime)
 	if err != nil {
@@ -107,7 +107,8 @@ func (p SssPin) Decrypt(msg *jwe.Message) ([]byte, error) {
 	}
 	cek = expandBuffer(cek, pointLength)
 
-	return msg.Decrypt(jwa.DIRECT, cek)
+	//return msg.Decrypt(jwa.DIRECT, cek)
+	return jwe.Decrypt(data, jwa.DIRECT, cek)
 }
 
 // SssConfig represents the data samir secret sharing needs to perform encryption
